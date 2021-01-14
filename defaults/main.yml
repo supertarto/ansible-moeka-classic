@@ -3,7 +3,7 @@ omeka_classic_force_update: false
 omeka_classic_release_version: "2.7.1"
 omeka_classic_download_url: "https://github.com/omeka/Omeka/releases/download/v{{ omeka_classic_release_version }}/omeka-{{ omeka_classic_release_version }}.zip"
 omeka_classic_unarchive_dir: "/var/www"
-omeka_classic_content_dest: "{{ omeka_classic_unarchive_dir }}/omeka"
+omeka_classic_content_dest: "{{ omeka_classic_unarchive_dir }}/omeka-{{ omeka_classic_release_version }}"
 omeka_classic_backup_directory: /"usr/local/omeka-classic-bck"
 
 omeka_classic_web_owner: www-data
