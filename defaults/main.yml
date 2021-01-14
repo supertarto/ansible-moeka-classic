@@ -13,4 +13,3 @@ omeka_classic_db_user: omeka
 omeka_classic_db_password: omekapass
 omeka_classic_db_name: omekadb
 omeka_classic_db_host: localhost
-
