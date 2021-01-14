@@ -53,11 +53,11 @@
     - "files"
   when: omeka_classic_installed.stat.exists and omeka_classic_force_update
 
-- name: Copy database.ini
+- name: Copy db.ini
   ansible.builtin.template:
     src: db.ini.j2
     owner: "{{ omeka_classic_web_owner }}"
     group: "{{ omeka_classic_web_group }}"
-    dest: "{{ omeka_classic_content_dest }}/config/database.ini"
+    dest: "{{ omeka_classic_content_dest }}/db.ini"
     mode: "0644"
   notify: Change Web directory owner
