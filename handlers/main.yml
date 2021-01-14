@@ -1,2 +1,7 @@
 ---
-
+- name: Change Web directory owner
+  file:
+    path: "{{ omeka_classic_content_dest }}"
+    owner: "{{ omeka_classic_web_owner }}"
+    group: "{{ omeka_classic_web_group }}"
+    recurse: true

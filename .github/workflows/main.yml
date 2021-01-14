@@ -5,12 +5,12 @@ name: CI
   push:
     branches:
       - master
-#  schedule:
-#    - cron: "0 5 * * 0"
+  schedule:
+    - cron: "0 5 * * 0"
 
 defaults:
   run:
-    working-directory: 'supertarto.ROLE'
+    working-directory: 'supertarto.omeka_classic'
 
 jobs:
 
@@ -21,7 +21,7 @@ jobs:
       - name: Check out the codebase.
         uses: actions/checkout@v2
         with:
-          path: 'supertarto.ROLE'
+          path: 'supertarto.omeka_classic'
 
       - name: Set up Python 3.
         uses: actions/setup-python@v2
@@ -47,7 +47,7 @@ jobs:
       - name: Check out the codebase.
         uses: actions/checkout@v2
         with:
-          path: 'supertarto.ROLE'
+          path: 'supertarto.omeka_classic'
 
       - name: Set up Python 3.
         uses: actions/setup-python@v2
@@ -56,6 +56,14 @@ jobs:
 
       - name: Install test dependencies.
         run: pip3 install ansible molecule[docker] docker
+
+      - name: Disable AppArmor on Debian.
+        run: |
+            set -x
+            sudo apt-get install apparmor-profiles
+            sudo ln -s /etc/apparmor.d/usr.sbin.mysqld /etc/apparmor.d/disable/
+            sudo apparmor_parser -R /etc/apparmor.d/usr.sbin.mysqld
+        if: ${{ startsWith(matrix.distrib, 'debian') }}
 
       - name: Run Molecule tests.
         run: molecule test

@@ -1,8 +1,8 @@
 ---
 galaxy_info:
   author: "Xavier Binois"
-  description: " "
-  role_name: 
+  description: "Install and configure Omeka Classic with Ansible"
+  role_name: omeka_classic
   license: "GNU General Public License v3.0"
   min_ansible_version: 2.8
 
@@ -12,5 +12,7 @@ galaxy_info:
         - "buster"
 
   galaxy_tags: []
-
+    - omeka
+    - archives
+    - repositories
 dependencies: []

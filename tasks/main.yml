@@ -1,2 +1,63 @@
 ---
+- name: "Install unzip"
+  ansible.builtin.package:
+    name: ['unzip']
+    state: present
 
+- name: Check if Omeka Classic directories already exists
+  ansible.builtin.stat:
+    path: "{{ omeka_classic_content_dest }}"
+  register: omeka_classic_installed
+
+- name: Create a configuration backup directory
+  ansible.builtin.file:
+    path: "{{ omeka_classic_backup_directory }}"
+    state: directory
+
+- name: Backup your configurations before update (Update only)
+  ansible.builtin.copy:
+    src: "{{ omeka_classic_content_dest }}/{{ item }}"
+    dest: "{{ omeka_classic_backup_directory }}/{{ item }}"
+    mode: '0640'
+    force: true
+  with_items:
+    - "files"
+  when: omeka_classic_installed.stat.exists and omeka_classic_force_update
+
+- name: Download and extract Omeka Classic
+  ansible.builtin.unarchive:
+    src: "{{ omeka_classic_download_url }}"
+    remote_src: true
+    dest: "{{ omeka_classic_unarchive_dir }}"
+    owner: "{{ omeka_classic_web_owner }}"
+    group: "{{ omeka_classic_web_group }}"
+    validate_certs: false
+  when: not omeka_classic_installed.stat.exists or omeka_classic_force_update
+
+- name: Set permisions to files directory
+  ansible.builtin.file:
+    path: "{{ omeka_classic_content_dest }}/files"
+    owner: "{{ omeka_classic_web_owner }}"
+    group: "{{ omeka_classic_web_group }}"
+    mode: "0755"
+  when: not omeka_classic_installed.stat.exists or omeka_classic_force_update
+
+- name: Restore your configurations files (Update Only)
+  ansible.builtin.copy:
+    src: "{{ omeka_classic_content_dest }}/{{ item }}"
+    dest: "{{ omeka_classic_backup_directory }}/{{ item }}"
+    owner: "{{ omeka_classic_web_owner }}"
+    group: "{{ omeka_classic_web_group }}"
+    force: true
+  with_items:
+    - "files"
+  when: omeka_classic_installed.stat.exists and omeka_classic_force_update
+
+- name: Copy database.ini
+  ansible.builtin.template:
+    src: db.ini.j2
+    owner: "{{ omeka_classic_web_owner }}"
+    group: "{{ omeka_classic_web_group }}"
+    dest: "{{ omeka_classic_content_dest }}/config/database.ini"
+    mode: "0644"
+  notify: Change Web directory owner
