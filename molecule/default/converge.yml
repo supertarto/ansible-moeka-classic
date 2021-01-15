@@ -19,6 +19,7 @@
     php_packages:
       - php7.3
       - php7.3-mysql
+      - php7.3-xml
       - php7.3-exif
 
     apache_create_vhosts: true
