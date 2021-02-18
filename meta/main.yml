@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: "Xavier Binois"
-  description: "Install and configure Omeka S with Ansible"
+  description: "Install and configure Omeka Classic with Ansible"
   role_name: omeka_classic
   company:
   license: "GNU General Public License v3.0"
