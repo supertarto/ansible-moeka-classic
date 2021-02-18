@@ -101,7 +101,7 @@ omeka_classic_db_host: localhost
 
 ## Installation
 ```
-ansible-galaxy install supertarto.omeka_s
+ansible-galaxy install supertarto.omeka_classic
 ```
 ## License
 GPL V3.0
