@@ -1,5 +1,5 @@
 ---
-- name: "Install unzip"
+- name: "Install requirements"
   ansible.builtin.package:
     name: ['unzip', 'imagemagick']
     state: present
