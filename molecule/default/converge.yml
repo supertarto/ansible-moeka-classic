@@ -51,7 +51,7 @@
             password: "{{ omeka_classic_db_password }}"
             priv: "{{ omeka_classic_db_name }}.*:SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,ALTER,CREATE TEMPORARY TABLES,LOCK TABLES"
 
-    omeka_classic_release_version: "2.7.1"
+    omeka_classic_release_version: "2.8"
     omeka_classic_db_user: omeka
     omeka_classic_db_password: omekapass
     omeka_classic_db_name: omekadb
