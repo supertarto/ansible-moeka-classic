@@ -13,6 +13,7 @@
   ansible.builtin.file:
     path: "{{ omeka_classic_backup_directory }}"
     state: directory
+  when: omeka_classic_installed.stat.exists and omeka_classic_force_update
 
 - name: Backup your configurations before update (Update only)
   ansible.builtin.copy:
@@ -33,10 +34,12 @@
     group: "{{ omeka_classic_web_group }}"
     validate_certs: false
   when: not omeka_classic_installed.stat.exists or omeka_classic_force_update
+  register: omeka_classic_is_unarchived
 
 - name: Rename Extract folder to keep links up
   ansible.builtin.command:
     cmd: "mv {{ omeka_classic_unarchive_content_dest }} {{ omeka_classic_content_dest }}"
+  when: omeka_classic_is_unarchived
 
 - name: Set permisions to files directory
   ansible.builtin.file:
