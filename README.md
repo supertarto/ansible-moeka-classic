@@ -16,11 +16,13 @@ Force omeka update
 omeka_classic_force_update: false
 ```
 Define wich version to download, the download link, where to unarchive and the destination.
+The "unarchive content dest" is the dfaukt folder name. It will be rename with the content of "omeka classic content dest" for consitency
 ```yml
 omeka_classic_release_version: "2.7.1"
 omeka_classic_download_url: "https://github.com/omeka/Omeka/releases/download/v{{ omeka_classic_release_version }}/omeka-{{ omeka_classic_release_version }}.zip"
 omeka_classic_unarchive_dir: "/var/www"
-omeka_classic_content_dest: "{{ omeka_classic_unarchive_dir }}/omeka"
+omeka_classic_unarchive_content_dest: "{{ omeka_classic_unarchive_dir }}/omeka-{{ omeka_classic_release_version }}"
+omeka_classic_content_dest: "{{ omeka_classic_unarchive_dir }}/omeka-classic"
 ```
 The directory where your local configurations will be backed up. Used only with omekaS_force_update set to True
 ```yml
