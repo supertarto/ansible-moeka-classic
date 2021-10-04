@@ -9,20 +9,9 @@
     path: "{{ omeka_classic_content_dest }}"
   register: omeka_classic_installed
 
-- name: Create a configuration backup directory
-  ansible.builtin.file:
-    path: "{{ omeka_classic_backup_directory }}"
-    state: directory
-  when: omeka_classic_installed.stat.exists and omeka_classic_force_update
-
-- name: Backup your configurations before update (Update only)
-  ansible.builtin.copy:
-    src: "{{ omeka_classic_content_dest }}/{{ item }}"
-    dest: "{{ omeka_classic_backup_directory }}/{{ item }}"
-    mode: '0640'
-    force: true
-  with_items:
-    - "files"
+- name: Rename Extract folder to keep links up
+  ansible.builtin.command:
+    cmd: mv {{ omeka_classic_content_dest }} {{ omeka_classic_backup_directory }}
   when: omeka_classic_installed.stat.exists and omeka_classic_force_update
 
 - name: Download and extract Omeka Classic
@@ -42,7 +31,7 @@
 
 - name: Rename Extract folder to keep links up
   ansible.builtin.command:
-    cmd: "mv {{ omeka_classic_unarchive_content_dest }} {{ omeka_classic_content_dest }}"
+    cmd: mv {{ omeka_classic_unarchive_content_dest }} {{ omeka_classic_content_dest }}
   when: omeka_classic_is_unarchived.stat.exists
 
 - name: Set permisions to files directory
@@ -55,13 +44,16 @@
 
 - name: Restore your configurations files (Update Only)
   ansible.builtin.copy:
-    src: "{{ omeka_classic_content_dest }}/{{ item }}"
-    dest: "{{ omeka_classic_backup_directory }}/{{ item }}"
+    src: "{{ omeka_classic_backup_directory }}/{{ item }}"
+    dest: "{{ omeka_classic_content_dest }}/"
     owner: "{{ omeka_classic_web_owner }}"
     group: "{{ omeka_classic_web_group }}"
     force: true
+    remote_src: true
   with_items:
     - "files"
+    - "plugins"
+    - "themes"
   when: omeka_classic_installed.stat.exists and omeka_classic_force_update
 
 - name: Copy db.ini
