@@ -5,7 +5,7 @@ omeka_classic_download_url: "https://github.com/omeka/Omeka/releases/download/v{
 omeka_classic_unarchive_dir: "/var/www"
 omeka_classic_unarchive_content_dest: "{{ omeka_classic_unarchive_dir }}/omeka-{{ omeka_classic_release_version }}"
 omeka_classic_content_dest: "{{ omeka_classic_unarchive_dir }}/omeka-classic"
-omeka_classic_backup_directory: /"usr/local/omeka-classic-bck"
+omeka_classic_backup_directory: "/var/www/omeka-bck"
 
 omeka_classic_web_owner: www-data
 omeka_classic_web_group: www-data
