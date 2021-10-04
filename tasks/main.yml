@@ -9,7 +9,7 @@
     path: "{{ omeka_classic_content_dest }}"
   register: omeka_classic_installed
 
-- name: Rename Extract folder to keep links up
+- name: Backup Omeka Classic directories (update only)
   ansible.builtin.command:
     cmd: mv {{ omeka_classic_content_dest }} {{ omeka_classic_backup_directory }}
   when: omeka_classic_installed.stat.exists and omeka_classic_force_update
